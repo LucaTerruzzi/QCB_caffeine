@@ -1,0 +1,30 @@
+# Gnuplot script file for plotting data 
+set colors classic
+set style line 12 lc 'black' lt 0 lw 1
+set grid back ls 12
+set lmargin 12
+set rmargin 4
+set bmargin 4
+set tmargin 3
+set key center top      
+set key font ",12"
+set autoscale                          # scale axes automatically
+set xtic auto          font ",12"      # set xtics automatically
+set ytic auto          font ",12"      # set ytics automatically
+set xlabel offset 0,0  font ",12"      "Dihedral angle (degree)"
+set ylabel offset 1,0  font ",12"      "Potential energy variation (kcal/mol) "
+f(x) =  4*a*((b/x)**12-(b/x)**6)
+a=0.01
+b=2.0
+#fit f(x)  './Potential'  every ::6::20 u ($1):($2) via a,b
+
+set xrange [0:360]                      # intervallo x 
+set yrange [:0]                       # intervallo y 
+plot   "./Potential"   every 1 using ($1):($2+93342.391351) title 'Potential energy H2O2' with linespoints   pt 5 lc 1 ps 1
+#       f(x)  title 'Fitted LJ potential' 
+      
+        set terminal pngcairo                          # will produce .png output
+set output "Potential_energy.png"          # output to any filename you use
+replot                                 # recreates plot but you don't see it, goes to file
+set term x11                           # resets the normal terminal so you can do more plotting
+ 

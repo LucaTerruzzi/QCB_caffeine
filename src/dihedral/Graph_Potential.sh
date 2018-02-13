@@ -1,0 +1,1 @@
+gnuplot Graph_Potential 

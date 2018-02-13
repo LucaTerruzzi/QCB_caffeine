@@ -1,0 +1,20 @@
+# Any line starting with the # character is a comment line
+#! Sample HF/cc-pVDZ H2O computation
+
+memory 6 Gb
+
+molecule caffeine {
+	pubchem:2519
+}
+
+set {
+	basis sto-3g
+	cubeprop_tasks ['density','orbitals','esp']
+	cubeprop_orbitals [51,52]
+}
+
+E, wfn = optimize('scf', return_wfn=True)
+psi4.print_out("E (Hartree) -> %f\n" % E)
+psi4.print_out("E (kJ/mol) -> %f\n" % (E * hartree2kJmol))
+oeprop(wfn, 'DIPOLE', 'MULLIKEN_CHARGES')
+cubeprop(wfn)
